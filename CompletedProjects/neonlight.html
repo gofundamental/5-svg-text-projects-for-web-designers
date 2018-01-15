@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Neon SVG</title>
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+  <style>
+    body {
+      background-color: black;
+      margin: 0;
+      text-align: center;
+    }
+    text {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 120px;
+    }
+    svg {
+      margin-top: 30px
+    }
+  </style>
+</head>
+<body>
+
+  <svg height="640" width="1200">
+
+    <defs>
+
+      <pattern id="Bricks" patternUnits="userSpaceOnUse" width="512" height="500">
+        <image href="TexturesCom_BrickSmallBrown0466_7_seamless_S.jpg" x="0" y="0" width="512" height="500"/>
+      </pattern>
+
+      <filter id="WallDarken" filterUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
+        <feFlood
+          flood-opacity="1"
+          flood-color="rgba(2,5,19,0.97)"
+          result="multiplycolor"
+        />
+        <feBlend
+          mode="multiply"
+          in="SourceGraphic"
+          in2="multiplycolor"
+          result="multiplied"
+        />
+      </filter>
+
+      <radialGradient id="Vignette">
+        <stop offset="0%" stop-color="rgba(0, 0, 0, 0)"/>
+        <stop offset="50%" stop-color="rgba(0,0,0,0.1)"/>
+        <stop offset="80%" stop-color="rgba(0,0,0,0.5)"/>
+        <stop offset="100%" stop-color="black"/>
+      </radialGradient>
+
+      <filter id="Neon" filterUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
+
+        <feGaussianBlur
+          in="SourceGraphic"
+          stdDeviation="3"
+          result="smallglow"
+        />
+
+        <feGaussianBlur
+          in="SourceAlpha"
+          stdDeviation="1"
+          result="inner"
+        />
+
+        <feMorphology
+          in="inner"
+          operator="erode"
+          radius="2"
+          result="inner"
+        />
+
+        <feFlood
+          flood-color="#faf2fa"
+          result="innercolor"
+        />
+
+        <feComposite
+          in="innercolor"
+          in2="inner"
+          operator="in"
+          result="innerglow"
+        />
+
+        <feGaussianBlur
+          in="SourceAlpha"
+          stdDeviation="10"
+          result="shadow"
+        />
+
+        <feOffset
+          in="shadow"
+          dx="10"
+          dy="10"
+          result="dropshadow"
+        />
+
+        <feMerge>
+          <feMergeNode in="dropshadow"/>
+          <feMergeNode in="smallglow"/>
+          <feMergeNode in="SourceGraphic"/>
+          <feMergeNode in="innerglow"/>
+        </feMerge>
+
+      </filter>
+
+      <radialGradient id="BackLight">
+        <stop offset="0%" stop-color="rgba(250, 0, 255, 0.2)"/>
+        <stop offset="60%" stop-color="rgba(250, 0, 255, 0.05)"/>
+        <stop offset="80%" stop-color="rgba(250, 0, 255, 0)"/>
+      </radialGradient>
+
+    </defs>
+
+    <rect fill="url(#Bricks)" filter="url(#WallDarken)" x="0" y="0" width="100%" height="100%"/>
+    <rect fill="url(#Vignette)" x="0" y="0" width="100%" height="100%"/>
+    <rect fill="url(#BackLight)" x="5%" y="5%" width="90%" height="90%"/>
+
+    <text filter="url(#Neon)" x="50%" y="320" alignment-baseline="middle" text-anchor="middle" fill="rgba(250, 0, 255, 1)">
+      Neon SVG
+    </text>
+
+  </svg>
+
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Inset SVG</title>
+  <link href="https://fonts.googleapis.com/css?family=Sura:700" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      background: #221814;
+      padding: 30px;
+    }
+    body {
+      margin: 0;
+      text-align: center;
+    }
+    svg {
+      border: 15px solid #39231b;
+    }
+    text {
+      font-family: 'Sura', sans-serif;
+      font-size: 180px;
+    }
+  </style>
+</head>
+<body>
+
+  <svg height="655" width="1200">
+
+    <defs>
+
+      <filter id="WoodTile" filterUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
+
+        <feImage
+          href="TexturesCom_WoodFine0086_7_seamless_S.png"
+          x="0"
+          y="0"
+          width="1024"
+          height="1024"
+          result="woodimg"
+        />
+
+        <feTile
+          in="woodimg"
+          result="woodtile"
+        />
+
+        <feComposite
+          in="woodtile"
+          in2="SourceGraphic"
+          operator="in"
+          result="wooded"
+        />
+
+      </filter>
+
+      <filter id="Inset" filterUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
+
+        <feFlood
+          flood-color="rgba(101, 15, 0, 0.7)"
+          result="textcolor"
+        />
+
+        <feBlend
+          in="textcolor"
+          in2="SourceGraphic"
+          mode="multiply"
+          result="recolored"
+        />
+
+        <feComposite
+          in="recolored"
+          in2="SourceAlpha"
+          operator="in"
+          result="coloredtext"
+        />
+
+        <feFlood
+          flood-color="rgba(57, 16, 9, 0.65)"
+          result="shadowcolor"
+        />
+
+        <feComposite
+          in="shadowcolor"
+          in2="SourceAlpha"
+          operator="out"
+          result="shadowcutout"
+        />
+
+        <feGaussianBlur
+          in="shadowcutout"
+          stdDeviation="3"
+          result="blurredcutout"
+        />
+
+        <feOffset
+          in="blurredcutout"
+          dx="4"
+          dy="4"
+          result="shadowcutout"
+        />
+
+        <feComposite
+          in2="SourceAlpha"
+          in="shadowcutout"
+          operator="in"
+          result="shadow"
+        />
+
+        <feGaussianBlur
+          in="SourceAlpha"
+          stdDeviation="1"
+          result="blurredtext"
+        />
+
+        <feFlood
+          flood-color="rgba(210, 173, 155, 0.4)"
+          result="highlightcolor"
+        />
+
+        <feComposite
+          in="highlightcolor"
+          in2="blurredtext"
+          operator="in"
+          result="coloredhighlight"
+        />
+
+        <feOffset
+          in="coloredhighlight"
+          dx="2"
+          dy="2"
+          result="offsethighlight"
+        />
+
+        <feComposite
+          in="offsethighlight"
+          in2="SourceAlpha"
+          operator="out"
+          result="highlight"
+        />
+
+        <feMerge>
+          <feMergeNode in="coloredtext"/>
+          <feMergeNode in="shadow"/>
+          <feMergeNode in="highlight"/>
+        </feMerge>
+
+      </filter>
+
+    </defs>
+
+      <rect filter="url(#WoodTile)" x="0" y="0" width="100%" height="100%"/>
+
+      <g filter="url(#Inset)">
+        <text filter="url(#WoodTile)" x="50%" y="320" alignment-baseline="middle" text-anchor="middle" fill="black">
+          INSET SVG
+        </text>
+      </g>
+
+  </svg>
+
+
+</body>
+</html>
